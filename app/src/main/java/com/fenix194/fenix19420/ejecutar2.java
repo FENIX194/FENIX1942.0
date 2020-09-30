@@ -2,6 +2,8 @@ package com.fenix194.fenix19420;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -11,17 +13,30 @@ import android.widget.Toast;
 
 public class ejecutar2 extends AppCompatActivity {
 
-    private Button BA;
-    private EditText Escribe;
+     Button BA;
+     EditText Escribe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ejecutar2);
 
+        Context context = this;
+        SharedPreferences sharprefs = getSharedPreferences("ArchivoSP", context.MODE_PRIVATE);
+
         BA = findViewById(R.id.BA);
         Escribe = findViewById(R.id.Escribe);
         BA.setEnabled(false);
+
+        BA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            SharedPreferences sharprefs = getPreferences(MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharprefs.edit();
+            editor.putString("NOTA", Escribe.getText().toString());
+            editor.commit();
+            }
+        });
 
         Escribe.setOnKeyListener(new View.OnKeyListener() {
             @Override
